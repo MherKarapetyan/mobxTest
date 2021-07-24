@@ -20,4 +20,7 @@ class Repository extends UserCredentialsRepository {
 
   @override
   Future<UserCredentials> checkSignedUser() => _storageUtil.checkSignedUser();
+
+  @override
+  Future<UserCredentials> logout(String key) => _storageUtil.logout(key);
 }

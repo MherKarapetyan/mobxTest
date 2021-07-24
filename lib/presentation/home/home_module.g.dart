@@ -53,6 +53,13 @@ mixin _$HomeModule on _HomeModule, Store {
     return _$autoLoginAsyncAction.run(() => super.autoLogin());
   }
 
+  final _$logoutAsyncAction = AsyncAction('_HomeModule.logout');
+
+  @override
+  Future<UserCredentials?> logout() {
+    return _$logoutAsyncAction.run(() => super.logout());
+  }
+
   final _$_HomeModuleActionController = ActionController(name: '_HomeModule');
 
   @override
@@ -61,17 +68,6 @@ mixin _$HomeModule on _HomeModule, Store {
         name: '_HomeModule.setSignedUser');
     try {
       return super.setSignedUser(value);
-    } finally {
-      _$_HomeModuleActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  void deleteSignedUser(UserCredentials value) {
-    final _$actionInfo = _$_HomeModuleActionController.startAction(
-        name: '_HomeModule.deleteSignedUser');
-    try {
-      return super.deleteSignedUser(value);
     } finally {
       _$_HomeModuleActionController.endAction(_$actionInfo);
     }

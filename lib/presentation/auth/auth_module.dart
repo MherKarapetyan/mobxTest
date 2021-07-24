@@ -1,6 +1,7 @@
 import 'package:mobx/mobx.dart';
 import 'package:mobx_with_clean_archtecture/data/storage/storage_util.dart';
 import 'package:mobx_with_clean_archtecture/domain/model/user_credentials.dart';
+import 'package:mobx_with_clean_archtecture/helper/helper.dart';
 import 'package:mobx_with_clean_archtecture/internal/dependencies/storage_module.dart';
 part 'auth_module.g.dart';
 
@@ -28,26 +29,43 @@ abstract class _AuthModule with Store {
   @action
   void changePassword(String value) => password = value;
 
+  @computed
+  String? get validateEmail => Validators().email(email);
+
+  @computed
+  String? get validatePassword => Validators().email(password);
+
+  @computed
+  bool get validateForm => validateEmail == null && validatePassword == null;
+
   @action
-  bool validateEmail() {
+  Future<bool> register() async {
+    if (validateForm) {
+      UserCredentials? _user =
+          await storage?.setEmailAndPassword(email: email, password: password);
+
+      return (_user?.email?.isNotEmpty ?? false) &&
+          (_user?.password?.isNotEmpty ?? false);
+    }
     return false;
   }
 
   @action
-  bool validatePassword() {
+  Future<bool> login() async {
+    if (validateForm) {
+      UserCredentials? _user = await storage?.getPasswordViaEmail(email: email);
+      return (_user?.email?.isNotEmpty ?? false) &&
+          (_user?.password?.isNotEmpty ?? false);
+    }
     return false;
   }
 
   @action
-  bool validateForm() {
-    return false;
+  Future<bool> logout() async {
+    UserCredentials? _user = await storage?.logout(email);
+    return (_user?.email?.isEmpty ?? false) &&
+        (_user?.password?.isEmpty ?? false);
   }
-
-  @action
-  void register() {}
-
-  @action
-  void login() {}
 
   @action
   Future<UserCredentials?> autoLogin() async =>

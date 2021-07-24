@@ -10,8 +10,5 @@ import 'package:mobx_with_clean_archtecture/presentation/auth/auth_module.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  /// Check signed user,
-  final UserCredentials? _user = await AuthModule().autoLogin();
-
-  runApp(App(user: _user));
+  runApp(App(user: await AuthModule().autoLogin()));
 }

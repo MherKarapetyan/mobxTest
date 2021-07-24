@@ -68,4 +68,18 @@ class StorageService {
       error: _error,
     );
   }
+
+  Future<UserResponse> deleteKey(String key) async {
+    bool _status = true;
+    await FlutterSecureStorage().delete(key: key);
+    await FlutterSecureStorage().delete(key: StorageKeys.SignedEmail);
+    _status = await FlutterSecureStorage().containsKey(key: key);
+
+    return UserResponse(
+      email: null,
+      password: null,
+      requestStatus: _status,
+      error: null,
+    );
+  }
 }

@@ -15,6 +15,27 @@ mixin _$AuthModule on _AuthModule, Store {
   bool get loading => (_$loadingComputed ??=
           Computed<bool>(() => super.loading, name: '_AuthModule.loading'))
       .value;
+  Computed<String?>? _$validateEmailComputed;
+
+  @override
+  String? get validateEmail =>
+      (_$validateEmailComputed ??= Computed<String?>(() => super.validateEmail,
+              name: '_AuthModule.validateEmail'))
+          .value;
+  Computed<String?>? _$validatePasswordComputed;
+
+  @override
+  String? get validatePassword => (_$validatePasswordComputed ??=
+          Computed<String?>(() => super.validatePassword,
+              name: '_AuthModule.validatePassword'))
+      .value;
+  Computed<bool>? _$validateFormComputed;
+
+  @override
+  bool get validateForm =>
+      (_$validateFormComputed ??= Computed<bool>(() => super.validateForm,
+              name: '_AuthModule.validateForm'))
+          .value;
 
   final _$emailAtom = Atom(name: '_AuthModule.email');
 
@@ -76,6 +97,27 @@ mixin _$AuthModule on _AuthModule, Store {
     });
   }
 
+  final _$registerAsyncAction = AsyncAction('_AuthModule.register');
+
+  @override
+  Future<bool> register() {
+    return _$registerAsyncAction.run(() => super.register());
+  }
+
+  final _$loginAsyncAction = AsyncAction('_AuthModule.login');
+
+  @override
+  Future<bool> login() {
+    return _$loginAsyncAction.run(() => super.login());
+  }
+
+  final _$logoutAsyncAction = AsyncAction('_AuthModule.logout');
+
+  @override
+  Future<bool> logout() {
+    return _$logoutAsyncAction.run(() => super.logout());
+  }
+
   final _$autoLoginAsyncAction = AsyncAction('_AuthModule.autoLogin');
 
   @override
@@ -108,67 +150,15 @@ mixin _$AuthModule on _AuthModule, Store {
   }
 
   @override
-  bool validateEmail() {
-    final _$actionInfo = _$_AuthModuleActionController.startAction(
-        name: '_AuthModule.validateEmail');
-    try {
-      return super.validateEmail();
-    } finally {
-      _$_AuthModuleActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  bool validatePassword() {
-    final _$actionInfo = _$_AuthModuleActionController.startAction(
-        name: '_AuthModule.validatePassword');
-    try {
-      return super.validatePassword();
-    } finally {
-      _$_AuthModuleActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  bool validateForm() {
-    final _$actionInfo = _$_AuthModuleActionController.startAction(
-        name: '_AuthModule.validateForm');
-    try {
-      return super.validateForm();
-    } finally {
-      _$_AuthModuleActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  void register() {
-    final _$actionInfo =
-        _$_AuthModuleActionController.startAction(name: '_AuthModule.register');
-    try {
-      return super.register();
-    } finally {
-      _$_AuthModuleActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
-  void login() {
-    final _$actionInfo =
-        _$_AuthModuleActionController.startAction(name: '_AuthModule.login');
-    try {
-      return super.login();
-    } finally {
-      _$_AuthModuleActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
   String toString() {
     return '''
 email: ${email},
 password: ${password},
 storage: ${storage},
-loading: ${loading}
+loading: ${loading},
+validateEmail: ${validateEmail},
+validatePassword: ${validatePassword},
+validateForm: ${validateForm}
     ''';
   }
 }
