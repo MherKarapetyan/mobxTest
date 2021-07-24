@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
 import 'package:mobx_with_clean_archtecture/data/storage/storage_util.dart';
 import 'package:mobx_with_clean_archtecture/domain/model/user_credentials.dart';
@@ -18,29 +19,32 @@ abstract class _AuthModule with Store {
   StorageUtil? storage = StorageModule.storageUtil();
 
   @observable
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
+  @observable
   bool _loadingState = false;
 
   @computed
   bool get loading => _loadingState;
 
   @action
-  void changeUsername(String value) => email = value;
+  void changeEmail(String value) => email = value;
 
   @action
   void changePassword(String value) => password = value;
 
-  @computed
-  String? get validateEmail => Validators().email(email);
+  @action
+  String? validateEmail(String? _) => Validators().email(email);
 
-  @computed
-  String? get validatePassword => Validators().email(password);
+  @action
+  String? validatePassword(String? _) => Validators().password(password);
 
-  @computed
-  bool get validateForm => validateEmail == null && validatePassword == null;
+  @action
+  bool validateForm() => formKey.currentState?.validate() ?? false;
 
   @action
   Future<bool> register() async {
-    if (validateForm) {
+    if (validateForm()) {
       UserCredentials? _user =
           await storage?.setEmailAndPassword(email: email, password: password);
 
@@ -52,7 +56,7 @@ abstract class _AuthModule with Store {
 
   @action
   Future<bool> login() async {
-    if (validateForm) {
+    if (validateForm()) {
       UserCredentials? _user = await storage?.getPasswordViaEmail(email: email);
       return (_user?.email?.isNotEmpty ?? false) &&
           (_user?.password?.isNotEmpty ?? false);

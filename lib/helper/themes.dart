@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mobx_with_clean_archtecture/presentation/widgets/textfields/textfield_styles.dart';
 
 /// This class contains all app themes.
 /// All app/text specific colors should be defined here.
@@ -17,6 +18,7 @@ class AppThemes {
 
   // App default theme
   static get defaultTheme {
+    final TextFieldStyles _styles = TextFieldStyles();
     return ThemeData(
       primaryColorBrightness: Brightness.light,
       scaffoldBackgroundColor: darkBlue,
@@ -27,6 +29,28 @@ class AppThemes {
       backgroundColor: white,
       brightness: Brightness.dark,
       appBarTheme: AppBarTheme(brightness: Brightness.dark),
+      inputDecorationTheme: InputDecorationTheme(
+        hintStyle: TextStyle(color: red),
+        helperStyle: TextStyle(color: red, fontSize: 18),
+        errorStyle: TextStyle(color: white),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: _styles.textFieldBorderRadius,
+          borderSide: BorderSide(width: _styles.borderWidth, color: red),
+        ),
+        focusedErrorBorder: OutlineInputBorder(
+          borderRadius: _styles.textFieldBorderRadius,
+          borderSide: BorderSide(width: _styles.borderWidth, color: red),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderRadius: _styles.textFieldBorderRadius,
+          borderSide: BorderSide(width: _styles.borderWidth, color: red),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: _styles.textFieldBorderRadius,
+          borderSide: BorderSide(
+              width: _styles.borderWidth, color: red.withOpacity(OPACITY_LOW)),
+        ),
+      ),
     );
   }
 

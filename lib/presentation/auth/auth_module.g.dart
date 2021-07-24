@@ -15,27 +15,6 @@ mixin _$AuthModule on _AuthModule, Store {
   bool get loading => (_$loadingComputed ??=
           Computed<bool>(() => super.loading, name: '_AuthModule.loading'))
       .value;
-  Computed<String?>? _$validateEmailComputed;
-
-  @override
-  String? get validateEmail =>
-      (_$validateEmailComputed ??= Computed<String?>(() => super.validateEmail,
-              name: '_AuthModule.validateEmail'))
-          .value;
-  Computed<String?>? _$validatePasswordComputed;
-
-  @override
-  String? get validatePassword => (_$validatePasswordComputed ??=
-          Computed<String?>(() => super.validatePassword,
-              name: '_AuthModule.validatePassword'))
-      .value;
-  Computed<bool>? _$validateFormComputed;
-
-  @override
-  bool get validateForm =>
-      (_$validateFormComputed ??= Computed<bool>(() => super.validateForm,
-              name: '_AuthModule.validateForm'))
-          .value;
 
   final _$emailAtom = Atom(name: '_AuthModule.email');
 
@@ -79,6 +58,21 @@ mixin _$AuthModule on _AuthModule, Store {
   set storage(StorageUtil? value) {
     _$storageAtom.reportWrite(value, super.storage, () {
       super.storage = value;
+    });
+  }
+
+  final _$formKeyAtom = Atom(name: '_AuthModule.formKey');
+
+  @override
+  GlobalKey<FormState> get formKey {
+    _$formKeyAtom.reportRead();
+    return super.formKey;
+  }
+
+  @override
+  set formKey(GlobalKey<FormState> value) {
+    _$formKeyAtom.reportWrite(value, super.formKey, () {
+      super.formKey = value;
     });
   }
 
@@ -128,11 +122,11 @@ mixin _$AuthModule on _AuthModule, Store {
   final _$_AuthModuleActionController = ActionController(name: '_AuthModule');
 
   @override
-  void changeUsername(String value) {
+  void changeEmail(String value) {
     final _$actionInfo = _$_AuthModuleActionController.startAction(
-        name: '_AuthModule.changeUsername');
+        name: '_AuthModule.changeEmail');
     try {
-      return super.changeUsername(value);
+      return super.changeEmail(value);
     } finally {
       _$_AuthModuleActionController.endAction(_$actionInfo);
     }
@@ -150,15 +144,46 @@ mixin _$AuthModule on _AuthModule, Store {
   }
 
   @override
+  String? validateEmail(String? _) {
+    final _$actionInfo = _$_AuthModuleActionController.startAction(
+        name: '_AuthModule.validateEmail');
+    try {
+      return super.validateEmail(_);
+    } finally {
+      _$_AuthModuleActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  String? validatePassword(String? _) {
+    final _$actionInfo = _$_AuthModuleActionController.startAction(
+        name: '_AuthModule.validatePassword');
+    try {
+      return super.validatePassword(_);
+    } finally {
+      _$_AuthModuleActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  bool validateForm() {
+    final _$actionInfo = _$_AuthModuleActionController.startAction(
+        name: '_AuthModule.validateForm');
+    try {
+      return super.validateForm();
+    } finally {
+      _$_AuthModuleActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 email: ${email},
 password: ${password},
 storage: ${storage},
-loading: ${loading},
-validateEmail: ${validateEmail},
-validatePassword: ${validatePassword},
-validateForm: ${validateForm}
+formKey: ${formKey},
+loading: ${loading}
     ''';
   }
 }

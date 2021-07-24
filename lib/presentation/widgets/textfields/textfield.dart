@@ -1,0 +1,36 @@
+import 'package:flutter/material.dart';
+import 'package:mobx_with_clean_archtecture/presentation/auth/auth_module.dart';
+import 'package:mobx_with_clean_archtecture/presentation/widgets/textfields/textfield_styles.dart';
+
+class AppTextField extends StatelessWidget {
+  final Function(String)? onChanged;
+  final String? Function(String?)? validator;
+  final String? hintText;
+  final TextFieldStyles _styles = TextFieldStyles();
+
+  AppTextField({
+    Key? key,
+    this.onChanged,
+    this.validator,
+    this.hintText,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return FocusScope(
+      child: Focus(
+        onFocusChange: (focus) {
+          print('$focus');
+          if (!focus) validator!('');
+        },
+        child: TextFormField(
+          onChanged: onChanged,
+          validator: validator,
+          autovalidateMode: AutovalidateMode.onUserInteraction,
+          cursorColor: Theme.of(context).secondaryHeaderColor,
+          decoration: InputDecoration(hintText: hintText),
+        ),
+      ),
+    );
+  }
+}
