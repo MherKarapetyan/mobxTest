@@ -44,4 +44,12 @@ class StorageUtil {
     final UserResponse result = await _storageService.setEmailAndPassword(body);
     return CredentialsMapper.fromStorage(result);
   }
+
+  ///
+  /// [checkSignedUser] function try to find signed user's email.
+  ///
+  Future<UserCredentials> checkSignedUser() async {
+    final UserResponse result = await _storageService.checkSignedUser();
+    return CredentialsMapper.fromStorage(result);
+  }
 }

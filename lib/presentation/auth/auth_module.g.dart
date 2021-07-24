@@ -9,6 +9,13 @@ part of 'auth_module.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic
 
 mixin _$AuthModule on _AuthModule, Store {
+  Computed<bool>? _$loadingComputed;
+
+  @override
+  bool get loading => (_$loadingComputed ??=
+          Computed<bool>(() => super.loading, name: '_AuthModule.loading'))
+      .value;
+
   final _$emailAtom = Atom(name: '_AuthModule.email');
 
   @override
@@ -37,6 +44,43 @@ mixin _$AuthModule on _AuthModule, Store {
     _$passwordAtom.reportWrite(value, super.password, () {
       super.password = value;
     });
+  }
+
+  final _$storageAtom = Atom(name: '_AuthModule.storage');
+
+  @override
+  StorageUtil? get storage {
+    _$storageAtom.reportRead();
+    return super.storage;
+  }
+
+  @override
+  set storage(StorageUtil? value) {
+    _$storageAtom.reportWrite(value, super.storage, () {
+      super.storage = value;
+    });
+  }
+
+  final _$_loadingStateAtom = Atom(name: '_AuthModule._loadingState');
+
+  @override
+  bool get _loadingState {
+    _$_loadingStateAtom.reportRead();
+    return super._loadingState;
+  }
+
+  @override
+  set _loadingState(bool value) {
+    _$_loadingStateAtom.reportWrite(value, super._loadingState, () {
+      super._loadingState = value;
+    });
+  }
+
+  final _$autoLoginAsyncAction = AsyncAction('_AuthModule.autoLogin');
+
+  @override
+  Future<UserCredentials?> autoLogin() {
+    return _$autoLoginAsyncAction.run(() => super.autoLogin());
   }
 
   final _$_AuthModuleActionController = ActionController(name: '_AuthModule');
@@ -122,7 +166,9 @@ mixin _$AuthModule on _AuthModule, Store {
   String toString() {
     return '''
 email: ${email},
-password: ${password}
+password: ${password},
+storage: ${storage},
+loading: ${loading}
     ''';
   }
 }
