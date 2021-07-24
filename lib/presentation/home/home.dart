@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx_with_clean_archtecture/helper/routes.dart';
-import 'package:mobx_with_clean_archtecture/presentation/auth/auth_module.dart';
 import 'package:mobx_with_clean_archtecture/presentation/home/home_module.dart';
 
 // final AuthModule _auth = AuthModule();
