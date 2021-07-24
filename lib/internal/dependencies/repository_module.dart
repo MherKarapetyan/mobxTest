@@ -6,7 +6,7 @@ import 'package:mobx_with_clean_archtecture/internal/dependencies/storage_module
 class RepositoryModule {
   static UserCredentialsRepository? _repository;
 
-  static UserCredentialsRepository? dayRepository() {
+  static UserCredentialsRepository? storageRepository() {
     StorageUtil? _storageUtil = StorageModule.storageUtil();
     if (_repository == null && _storageUtil != null)
       _repository = Repository(_storageUtil);

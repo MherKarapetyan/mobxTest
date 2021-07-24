@@ -1,13 +1,18 @@
-class UserResponse<T> {
-  final bool status;
+class UserResponse {
+  final bool requestStatus;
   final String? error;
   final String? email;
   final String? password;
 
-  UserResponse({this.error, required this.status, this.email, this.password});
+  UserResponse({
+    this.error,
+    required this.requestStatus,
+    this.email,
+    this.password,
+  });
 
   UserResponse.fromApi(Map<String, dynamic> map)
-      : status = map['status'],
+      : requestStatus = map['status'],
         error = map['error'],
         email = map['email'],
         password = map['password'];

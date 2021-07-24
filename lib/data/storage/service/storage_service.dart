@@ -10,7 +10,7 @@ class StorageService {
     return UserResponse(
       password: _pass,
       email: credential.email,
-      status: _pass != null,
+      requestStatus: _pass != null,
       error: null,
     );
   }
@@ -21,7 +21,7 @@ class StorageService {
     return UserResponse(
       email: credentials.email,
       password: credentials.password,
-      status: true,
+      requestStatus: true,
       error: null,
     );
   }
