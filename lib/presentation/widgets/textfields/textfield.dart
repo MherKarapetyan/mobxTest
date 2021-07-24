@@ -17,20 +17,12 @@ class AppTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FocusScope(
-      child: Focus(
-        onFocusChange: (focus) {
-          print('$focus');
-          if (!focus) validator!('');
-        },
-        child: TextFormField(
-          onChanged: onChanged,
-          validator: validator,
-          autovalidateMode: AutovalidateMode.onUserInteraction,
-          cursorColor: Theme.of(context).secondaryHeaderColor,
-          decoration: InputDecoration(hintText: hintText),
-        ),
-      ),
+    return TextFormField(
+      onChanged: onChanged,
+      validator: validator,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      cursorColor: Theme.of(context).secondaryHeaderColor,
+      decoration: InputDecoration(hintText: hintText),
     );
   }
 }

@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 
@@ -16,41 +18,45 @@ class AuthPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: GestureDetector(
-        onTap: FocusScope.of(context).unfocus,
-        child: CustomPaint(
-          painter: AuthPageCustomPaint(),
-          child: Observer(
-            name: AppRoutes.auth,
-            builder: (_) {
-              return Stack(
-                children: [
-                  Center(
-                    child: Padding(
-                      padding: _styles.contentPadding,
-                      child: Form(
-                        key: _auth.formKey,
-                        child: ListView(
-                          children: [
-                            AppTextField(
-                              validator: _auth.validateEmail,
-                              onChanged: _auth.changeEmail,
-                              hintText: 'Email',
-                            ),
-                            AppTextField(
-                              validator: _auth.validatePassword,
-                              onChanged: _auth.changePassword,
-                              hintText: 'Password',
-                            ),
-                          ],
+      resizeToAvoidBottomInset: true,
+      body: SizedBox(
+        height: window.physicalSize.height,
+        child: GestureDetector(
+          onTap: FocusScope.of(context).unfocus,
+          child: CustomPaint(
+            painter: AuthPageCustomPaint(),
+            child: Observer(
+              name: AppRoutes.auth,
+              builder: (_) {
+                return Stack(
+                  children: [
+                    Center(
+                      child: Padding(
+                        padding: _styles.contentPadding,
+                        child: Form(
+                          key: _auth.formKey,
+                          child: ListView(
+                            children: [
+                              AppTextField(
+                                validator: _auth.validateEmail,
+                                onChanged: _auth.changeEmail,
+                                hintText: 'Email',
+                              ),
+                              AppTextField(
+                                validator: _auth.validatePassword,
+                                onChanged: _auth.changePassword,
+                                hintText: 'Password',
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
-                  ),
-                  if (_auth.loading) const Loading(),
-                ],
-              );
-            },
+                    if (_auth.loading) const Loading(),
+                  ],
+                );
+              },
+            ),
           ),
         ),
       ),
