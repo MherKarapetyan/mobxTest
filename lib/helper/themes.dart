@@ -8,15 +8,25 @@ class AppThemes {
   static const double OPACITY_MIDDLE = 0.5;
   static const double OPACITY_HIGH = 0.9;
 
-  static const Color _white = Color(0xffffffff);
-  static const Color _black = Color(0xff030104);
+  static const Color white = Color(0xffffffff);
+  static const Color darkBlue = Color.fromRGBO(12, 29, 48, 1);
+  static const Color darkPurple = Color.fromRGBO(30, 34, 52, 1);
+  static const Color red = Color.fromRGBO(220, 102, 92, 1);
+  static const Color black = Color(0xff030104);
+  static const Color grey = Colors.grey;
 
   // App default theme
   static get defaultTheme {
     return ThemeData(
       primaryColorBrightness: Brightness.light,
-      scaffoldBackgroundColor: _white,
-      primaryColor: _black,
+      scaffoldBackgroundColor: darkBlue,
+      disabledColor: grey,
+      primaryColor: darkBlue,
+      secondaryHeaderColor: red,
+      accentColor: darkPurple,
+      backgroundColor: white,
+      brightness: Brightness.dark,
+      appBarTheme: AppBarTheme(brightness: Brightness.dark),
     );
   }
 
