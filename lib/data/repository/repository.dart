@@ -17,4 +17,10 @@ class Repository extends UserCredentialsRepository {
     required String password,
   }) =>
       _storageUtil.setEmailAndPassword(email: email, password: password);
+
+  @override
+  Future<UserCredentials> checkSignedUser() => _storageUtil.checkSignedUser();
+
+  @override
+  Future<UserCredentials> logout(String key) => _storageUtil.logout(key);
 }

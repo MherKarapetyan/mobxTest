@@ -12,7 +12,7 @@ class AppThemes {
   static const Color _black = Color(0xff030104);
 
   // App default theme
-  static get appTheme {
+  static get defaultTheme {
     return ThemeData(
       primaryColorBrightness: Brightness.light,
       scaffoldBackgroundColor: _white,
