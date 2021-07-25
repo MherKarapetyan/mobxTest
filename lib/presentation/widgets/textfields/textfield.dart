@@ -17,12 +17,15 @@ class AppTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      onChanged: onChanged,
-      validator: validator,
-      autovalidateMode: AutovalidateMode.onUserInteraction,
-      cursorColor: Theme.of(context).secondaryHeaderColor,
-      decoration: InputDecoration(hintText: hintText),
+    return Padding(
+      padding: _styles.textfieldPadding,
+      child: TextFormField(
+        onChanged: onChanged,
+        validator: validator,
+        autovalidateMode: AutovalidateMode.onUserInteraction,
+        cursorColor: Theme.of(context).secondaryHeaderColor,
+        decoration: InputDecoration(hintText: hintText),
+      ),
     );
   }
 }

@@ -33,6 +33,7 @@ class AppThemes {
       appBarTheme: AppBarTheme(brightness: Brightness.dark),
       primaryTextTheme: TextTheme(
         button: GoogleFonts.ubuntu(fontWeight: FONTWEIGHT_SEMI_BOLD),
+        headline6: GoogleFonts.ubuntu(fontWeight: FONTWEIGHT_SEMI_BOLD, fontSize: 22),
       ),
       inputDecorationTheme: InputDecorationTheme(
         hintStyle:

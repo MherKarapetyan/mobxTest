@@ -8,6 +8,7 @@ import 'package:mobx_with_clean_archtecture/helper/routes.dart';
 import 'package:mobx_with_clean_archtecture/presentation/auth/auth_module.dart';
 import 'package:mobx_with_clean_archtecture/presentation/auth/auth_styles.dart';
 import 'package:mobx_with_clean_archtecture/presentation/auth/components/segmented_control.dart';
+import 'package:mobx_with_clean_archtecture/presentation/widgets/buttons/buttons.dart';
 import 'package:mobx_with_clean_archtecture/presentation/widgets/custom_paint/custom_paint.dart';
 import 'package:mobx_with_clean_archtecture/presentation/widgets/loading.dart';
 import 'package:mobx_with_clean_archtecture/presentation/widgets/textfields/textfield.dart';
@@ -39,9 +40,9 @@ class AuthPage extends StatelessWidget {
                           child: ListView(
                             children: [
                               Divider(
-                                height: MediaQuery.of(context).size.height *
-                                    _styles.dividerHeightFactor,
-                              ),
+                                  height: MediaQuery.of(context).size.height *
+                                      _styles.dividerHeightFactor,
+                                  color: AppThemes.transparent),
                               AppTextField(
                                 validator: _auth.validateEmail,
                                 onChanged: _auth.changeEmail,
@@ -60,13 +61,37 @@ class AuthPage extends StatelessWidget {
                                     _styles.segmentedControlWidthFactor,
                                 child: const SegmentedControl(),
                               ),
-                              Divider(
-                                height: MediaQuery.of(context).size.height *
-                                    _styles.dividerHeightFactor,
+                              AppButton(
+                                child: Text(
+                                  'Forgot Password',
+                                  style: Theme.of(context)
+                                      .primaryTextTheme
+                                      .button
+                                      ?.copyWith(
+                                        color: Theme.of(context)
+                                            .secondaryHeaderColor,
+                                      ),
+                                ),
+                                onPressed: () {},
                               ),
+                              Divider(
+                                  height: MediaQuery.of(context).size.height *
+                                      _styles.dividerHeightFactor,
+                                  color: AppThemes.transparent),
                             ],
                           ),
                         ),
+                      ),
+                    ),
+                    Positioned(
+                      top: window.physicalSize.height * 0.035,
+                      left: window.physicalSize.width * 0.02,
+                      child: Text(
+                        'Brand \nLogo'.toUpperCase(),
+                        style: Theme.of(context)
+                            .primaryTextTheme
+                            .headline6
+                            ?.copyWith(color: AppThemes.white),
                       ),
                     ),
                     if (_auth.loading) const Loading(),

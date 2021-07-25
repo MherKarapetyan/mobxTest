@@ -10,7 +10,7 @@ class AuthPageCustomPaint extends CustomPainter {
     final Paint paint = Paint()..color = AppThemes.darkPurple;
     final Path path = Path()
       ..lineTo(0, window.physicalSize.height * 0.08)
-      ..relativeQuadraticBezierTo(size.width * 0.78, -100, size.width, 0)
+      ..relativeQuadraticBezierTo(size.width * 0.78, -130, size.width, 0)
       ..lineTo(size.width, 0)
       ..close();
 

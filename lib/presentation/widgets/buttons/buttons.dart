@@ -1,10 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:mobx_with_clean_archtecture/helper/themes.dart';
 
 class AppButton extends StatelessWidget {
-  const AppButton({Key? key}) : super(key: key);
+  final Function()? onPressed;
+  final Widget child;
+  AppButton({
+    Key? key,
+    required this.onPressed,
+    required this.child,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 10.0),
+      child: MaterialButton(
+        onPressed: onPressed,
+        elevation: 0,
+        focusElevation: 0,
+        highlightElevation: 0,
+        child: child,
+        color: AppThemes.darkBlue,
+        splashColor: AppThemes.transparent,
+        highlightColor: AppThemes.transparent,
+      ),
+    );
   }
 }
