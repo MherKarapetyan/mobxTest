@@ -32,7 +32,6 @@ class StorageService {
         String? _temporaryPassword =
             await FlutterSecureStorage().read(key: credential.email!);
 
-        print('$_temporaryPassword   ${credential.password}');
         if (_temporaryPassword == credential.password) {
           _error = null;
           _pass = _temporaryPassword;
