@@ -112,6 +112,13 @@ mixin _$AuthModule on _AuthModule, Store {
     });
   }
 
+  final _$changeTabIndexAsyncAction = AsyncAction('_AuthModule.changeTabIndex');
+
+  @override
+  Future<void> changeTabIndex(int value) {
+    return _$changeTabIndexAsyncAction.run(() => super.changeTabIndex(value));
+  }
+
   final _$registerAsyncAction = AsyncAction('_AuthModule.register');
 
   @override
@@ -141,17 +148,6 @@ mixin _$AuthModule on _AuthModule, Store {
   }
 
   final _$_AuthModuleActionController = ActionController(name: '_AuthModule');
-
-  @override
-  void changeTabIndex(int value) {
-    final _$actionInfo = _$_AuthModuleActionController.startAction(
-        name: '_AuthModule.changeTabIndex');
-    try {
-      return super.changeTabIndex(value);
-    } finally {
-      _$_AuthModuleActionController.endAction(_$actionInfo);
-    }
-  }
 
   @override
   void changeEmail(String value) {
@@ -203,6 +199,28 @@ mixin _$AuthModule on _AuthModule, Store {
         name: '_AuthModule.validateForm');
     try {
       return super.validateForm();
+    } finally {
+      _$_AuthModuleActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void navigateToHome() {
+    final _$actionInfo = _$_AuthModuleActionController.startAction(
+        name: '_AuthModule.navigateToHome');
+    try {
+      return super.navigateToHome();
+    } finally {
+      _$_AuthModuleActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void navigateToAuth() {
+    final _$actionInfo = _$_AuthModuleActionController.startAction(
+        name: '_AuthModule.navigateToAuth');
+    try {
+      return super.navigateToAuth();
     } finally {
       _$_AuthModuleActionController.endAction(_$actionInfo);
     }

@@ -34,7 +34,7 @@ abstract class _AuthModule with Store {
   int get tab => _tabIndex;
 
   @action
-  void changeTabIndex(int value) async {
+  Future<void> changeTabIndex(int value) async {
     if (value == _tabIndex) {
       _loadingState = true;
       if (value == 0)
