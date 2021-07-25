@@ -2,11 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:mobx_with_clean_archtecture/helper/themes.dart';
-import 'dart:math' as math;
 
+import 'package:mobx_with_clean_archtecture/internal/core/core.dart'
+    show AppThemes;
 import 'package:mobx_with_clean_archtecture/presentation/auth/auth_module.dart';
-import 'package:mobx_with_clean_archtecture/presentation/auth/components/segmented_control_styles.dart';
+import 'package:mobx_with_clean_archtecture/presentation/widgets/segmented_control/segmented_control_styles.dart';
 
 final SegmentedControlStyles _styles = SegmentedControlStyles();
 

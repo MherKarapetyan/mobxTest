@@ -3,14 +3,14 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 
-import 'package:mobx_with_clean_archtecture/helper/helper.dart';
-import 'package:mobx_with_clean_archtecture/helper/routes.dart';
+import 'package:mobx_with_clean_archtecture/internal/core/core.dart'
+    show AppThemes, AppRoutes;
 import 'package:mobx_with_clean_archtecture/presentation/auth/auth_module.dart';
 import 'package:mobx_with_clean_archtecture/presentation/auth/auth_styles.dart';
-import 'package:mobx_with_clean_archtecture/presentation/auth/components/segmented_control.dart';
 import 'package:mobx_with_clean_archtecture/presentation/widgets/buttons/buttons.dart';
 import 'package:mobx_with_clean_archtecture/presentation/widgets/custom_paint/custom_paint.dart';
 import 'package:mobx_with_clean_archtecture/presentation/widgets/loading.dart';
+import 'package:mobx_with_clean_archtecture/presentation/widgets/segmented_control/segmented_control.dart';
 import 'package:mobx_with_clean_archtecture/presentation/widgets/textfields/textfield.dart';
 
 class AuthPage extends StatelessWidget {

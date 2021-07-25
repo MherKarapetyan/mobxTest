@@ -3,7 +3,7 @@ import 'package:mobx_with_clean_archtecture/data/storage/model/user_response.dar
 import 'package:mobx_with_clean_archtecture/data/storage/request/credentials_body.dart';
 import 'package:mobx_with_clean_archtecture/data/storage/service/storage_service.dart';
 import 'package:mobx_with_clean_archtecture/domain/model/user_credentials.dart';
-import 'package:mobx_with_clean_archtecture/helper/helper.dart';
+import 'package:mobx_with_clean_archtecture/presentation/widgets/snackbars.dart';
 
 class StorageUtil {
   final StorageService _storageService;

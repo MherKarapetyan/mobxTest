@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:mobx_with_clean_archtecture/helper/helper.dart';
-import 'package:mobx_with_clean_archtecture/helper/routes.dart';
+import 'package:mobx_with_clean_archtecture/internal/core/core.dart'
+    show AppRoutes, AppThemes;
 import 'package:mobx_with_clean_archtecture/presentation/home/home_module.dart';
 import 'package:mobx_with_clean_archtecture/presentation/widgets/loading.dart';
 
