@@ -8,9 +8,13 @@ import 'package:mobx_with_clean_archtecture/presentation/auth/auth_module.dart';
 class Configs {
   static Future<void> init() async {
     WidgetsFlutterBinding.ensureInitialized();
+
+    // Set statusbar color.
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(statusBarBrightness: Brightness.dark),
     );
+
+    // Run flutter app and send logged user as argument.
     runApp(App(user: await AuthModule().autoLogin()));
   }
 }

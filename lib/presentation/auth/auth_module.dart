@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
 import 'package:mobx_with_clean_archtecture/data/storage/storage_util.dart';
 import 'package:mobx_with_clean_archtecture/domain/model/user_credentials.dart';
+import 'package:mobx_with_clean_archtecture/domain/repository/user_credential_repository.dart';
 import 'package:mobx_with_clean_archtecture/internal/core/core.dart';
+import 'package:mobx_with_clean_archtecture/internal/dependencies/repository_module.dart';
 import 'package:mobx_with_clean_archtecture/internal/dependencies/storage_module.dart';
 part 'auth_module.g.dart';
 
@@ -15,8 +17,11 @@ abstract class _AuthModule with Store {
   @observable
   String password = '';
 
+  // @observable
+  // StorageUtil? storage = StorageModule.storageUtil();
+
   @observable
-  StorageUtil? storage = StorageModule.storageUtil();
+  UserCredentialsRepository? _module = RepositoryModule.storageRepository();
 
   @observable
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -67,7 +72,7 @@ abstract class _AuthModule with Store {
       _loadingState = true;
       await Future.delayed(Duration(seconds: 2));
       UserCredentials? _user =
-          await storage?.setEmailAndPassword(email: email, password: password);
+          await _module?.setEmailAndPassword(email: email, password: password);
       _loggedIn = (_user?.email?.isNotEmpty ?? false) &&
           (_user?.password?.isNotEmpty ?? false);
     }
@@ -83,7 +88,7 @@ abstract class _AuthModule with Store {
     if (validateForm()) {
       _loadingState = true;
       await Future.delayed(Duration(seconds: 2));
-      UserCredentials? _user = await storage?.getPasswordViaEmail(email: email);
+      UserCredentials? _user = await _module?.getPasswordViaEmail(email: email);
       _loggedIn = (_user?.email?.isNotEmpty ?? false) &&
           (_user?.password?.isNotEmpty ?? false);
     }
@@ -111,7 +116,7 @@ abstract class _AuthModule with Store {
 
   @action
   Future<bool> logout() async {
-    UserCredentials? _user = await storage?.logout(email);
+    UserCredentials? _user = await _module?.logout(email);
 
     bool _loggedOut =
         (_user?.email?.isEmpty ?? false) && (_user?.password?.isEmpty ?? false);
@@ -122,5 +127,5 @@ abstract class _AuthModule with Store {
 
   @action
   Future<UserCredentials?> autoLogin() async =>
-      await storage?.checkSignedUser();
+      await _module?.checkSignedUser();
 }
