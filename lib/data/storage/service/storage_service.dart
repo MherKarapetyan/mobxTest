@@ -1,9 +1,12 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:mobx_with_clean_archtecture/data/storage/model/user_response.dart';
 import 'package:mobx_with_clean_archtecture/data/storage/request/credentials_body.dart';
-import 'package:mobx_with_clean_archtecture/helper/helper.dart';
 
 class StorageService {
+  static const String Email = 'email';
+  static const String Password = 'password';
+  static const String SignedEmail = 'signedEmail';
+
   Future<UserResponse> getPasswordViaEmail(
     CredentialsBody credential,
   ) async {
@@ -15,7 +18,7 @@ class StorageService {
       _status =
           await FlutterSecureStorage().containsKey(key: credential.email!);
       await FlutterSecureStorage()
-          .write(key: StorageKeys.SignedEmail, value: credential.email!);
+          .write(key: SignedEmail, value: credential.email!);
       if (_status) {
         _error = null;
         _pass = await FlutterSecureStorage().read(key: credential.email!);
@@ -38,19 +41,24 @@ class StorageService {
 
     if (credentials.email != null && credentials.password != null) {
       _error = null;
-      await FlutterSecureStorage()
-          .write(key: credentials.email!, value: credentials.password);
 
-      await FlutterSecureStorage()
-          .write(key: StorageKeys.SignedEmail, value: credentials.email!);
-      _status =
-          await FlutterSecureStorage().containsKey(key: credentials.email!);
+      if (await FlutterSecureStorage().containsKey(key: credentials.email!)) {
+        _error = 'User already registered';
+      } else {
+        await FlutterSecureStorage()
+            .write(key: credentials.email!, value: credentials.password);
+
+        await FlutterSecureStorage()
+            .write(key: SignedEmail, value: credentials.email!);
+        _status =
+            await FlutterSecureStorage().containsKey(key: credentials.email!);
+      }
     }
     if (_status) _error = 'User regitered successfully.';
 
     return UserResponse(
-      email: credentials.email,
-      password: credentials.password,
+      email: _status ? credentials.email : null,
+      password: _status ? credentials.password : null,
       requestStatus: _status,
       error: _error,
     );
@@ -61,9 +69,8 @@ class StorageService {
     String? _error = 'Signed User doesn\'t exists';
     String? _email;
 
-    _email = await FlutterSecureStorage().read(key: StorageKeys.SignedEmail);
-    _status =
-        await FlutterSecureStorage().containsKey(key: StorageKeys.SignedEmail);
+    _email = await FlutterSecureStorage().read(key: SignedEmail);
+    _status = await FlutterSecureStorage().containsKey(key: SignedEmail);
 
     if (_status) _error = null;
 
@@ -78,7 +85,7 @@ class StorageService {
   Future<UserResponse> deleteSignedAccount() async {
     bool _status = true;
     String _error = 'Logged out successfully';
-    await FlutterSecureStorage().delete(key: StorageKeys.SignedEmail);
+    await FlutterSecureStorage().delete(key: SignedEmail);
     return UserResponse(
       email: null,
       password: null,

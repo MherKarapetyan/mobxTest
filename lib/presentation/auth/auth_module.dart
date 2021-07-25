@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
 import 'package:mobx_with_clean_archtecture/data/storage/storage_util.dart';
 import 'package:mobx_with_clean_archtecture/domain/model/user_credentials.dart';
-import 'package:mobx_with_clean_archtecture/helper/helper.dart';
+import 'package:mobx_with_clean_archtecture/internal/core/core.dart';
 import 'package:mobx_with_clean_archtecture/internal/dependencies/storage_module.dart';
 part 'auth_module.g.dart';
 
@@ -36,11 +36,9 @@ abstract class _AuthModule with Store {
   @action
   Future<void> changeTabIndex(int value) async {
     if (value == _tabIndex) {
-      _loadingState = true;
       if (value == 0)
         await login();
       else if (value == 1) await register();
-      _loadingState = false;
     }
 
     _tabIndex = value;
@@ -66,6 +64,8 @@ abstract class _AuthModule with Store {
     bool _loggedIn = false;
 
     if (validateForm()) {
+      _loadingState = true;
+      await Future.delayed(Duration(seconds: 2));
       UserCredentials? _user =
           await storage?.setEmailAndPassword(email: email, password: password);
       _loggedIn = (_user?.email?.isNotEmpty ?? false) &&
@@ -73,6 +73,7 @@ abstract class _AuthModule with Store {
     }
     if (_loggedIn) navigateToHome();
 
+    _loadingState = false;
     return false;
   }
 
@@ -80,12 +81,16 @@ abstract class _AuthModule with Store {
   Future<bool> login() async {
     bool _loggedIn = false;
     if (validateForm()) {
+      _loadingState = true;
+      await Future.delayed(Duration(seconds: 2));
       UserCredentials? _user = await storage?.getPasswordViaEmail(email: email);
       _loggedIn = (_user?.email?.isNotEmpty ?? false) &&
           (_user?.password?.isNotEmpty ?? false);
     }
 
     if (_loggedIn) navigateToHome();
+
+    _loadingState = false;
 
     return _loggedIn;
   }
@@ -100,10 +105,8 @@ abstract class _AuthModule with Store {
 
   @action
   void navigateToAuth() {
-    Future.delayed(Duration(seconds: 1), () {
-      Navigator.of(GlobalContext.value)
-          .pushNamedAndRemoveUntil(AppRoutes.auth, (route) => false);
-    });
+    Navigator.of(GlobalContext.value)
+        .pushNamedAndRemoveUntil(AppRoutes.auth, (route) => false);
   }
 
   @action

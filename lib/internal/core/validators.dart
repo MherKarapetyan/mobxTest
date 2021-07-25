@@ -1,4 +1,4 @@
-import 'package:mobx_with_clean_archtecture/helper/regexp.dart';
+import 'package:mobx_with_clean_archtecture/internal/core/regexp.dart';
 
 class Validators {
   String? email(String? value) {

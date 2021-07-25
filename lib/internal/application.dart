@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+
 import 'package:mobx_with_clean_archtecture/domain/model/user_credentials.dart';
-import 'package:mobx_with_clean_archtecture/helper/helper.dart';
+
+import 'core/core.dart';
 
 class App extends StatelessWidget {
   final UserCredentials? user;

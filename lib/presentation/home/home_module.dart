@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
 import 'package:mobx_with_clean_archtecture/domain/model/user_credentials.dart';
-import 'package:mobx_with_clean_archtecture/helper/global_context.dart';
-import 'package:mobx_with_clean_archtecture/helper/routes.dart';
+import 'package:mobx_with_clean_archtecture/internal/core/core.dart'
+    show AppRoutes, GlobalContext;
 import 'package:mobx_with_clean_archtecture/presentation/auth/auth_module.dart';
 
 part 'home_module.g.dart';
@@ -29,14 +29,8 @@ abstract class _HomeModule with Store {
 
   @action
   Future<UserCredentials?> logout() async {
-    // Change loading state.
-    _loadingState = true;
-
     // Logout current user.
     await AuthModule().logout();
-
-    // Change loading state.
-    _loadingState = false;
 
     // Navigate to the HomePage.
     Navigator.of(GlobalContext.value)

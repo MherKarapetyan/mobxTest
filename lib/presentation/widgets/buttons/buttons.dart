@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mobx_with_clean_archtecture/helper/themes.dart';
+import 'package:mobx_with_clean_archtecture/internal/core/core.dart' show AppThemes;
 
 class AppButton extends StatelessWidget {
   final Function()? onPressed;

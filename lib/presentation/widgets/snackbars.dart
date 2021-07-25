@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:mobx_with_clean_archtecture/helper/helper.dart';
-import 'package:mobx_with_clean_archtecture/helper/themes.dart';
+import 'package:mobx_with_clean_archtecture/internal/core/themes.dart';
 
-import 'global_context.dart';
+import '../../internal/core/global_context.dart';
 
 class Snackbars {
   void showMessage({required String text}) {
