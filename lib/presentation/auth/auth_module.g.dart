@@ -15,27 +15,12 @@ mixin _$AuthModule on _AuthModule, Store {
   bool get loading => (_$loadingComputed ??=
           Computed<bool>(() => super.loading, name: '_AuthModule.loading'))
       .value;
-  Computed<String?>? _$validateEmailComputed;
+  Computed<int>? _$tabComputed;
 
   @override
-  String? get validateEmail =>
-      (_$validateEmailComputed ??= Computed<String?>(() => super.validateEmail,
-              name: '_AuthModule.validateEmail'))
-          .value;
-  Computed<String?>? _$validatePasswordComputed;
-
-  @override
-  String? get validatePassword => (_$validatePasswordComputed ??=
-          Computed<String?>(() => super.validatePassword,
-              name: '_AuthModule.validatePassword'))
+  int get tab => (_$tabComputed ??=
+          Computed<int>(() => super.tab, name: '_AuthModule.tab'))
       .value;
-  Computed<bool>? _$validateFormComputed;
-
-  @override
-  bool get validateForm =>
-      (_$validateFormComputed ??= Computed<bool>(() => super.validateForm,
-              name: '_AuthModule.validateForm'))
-          .value;
 
   final _$emailAtom = Atom(name: '_AuthModule.email');
 
@@ -82,6 +67,21 @@ mixin _$AuthModule on _AuthModule, Store {
     });
   }
 
+  final _$formKeyAtom = Atom(name: '_AuthModule.formKey');
+
+  @override
+  GlobalKey<FormState> get formKey {
+    _$formKeyAtom.reportRead();
+    return super.formKey;
+  }
+
+  @override
+  set formKey(GlobalKey<FormState> value) {
+    _$formKeyAtom.reportWrite(value, super.formKey, () {
+      super.formKey = value;
+    });
+  }
+
   final _$_loadingStateAtom = Atom(name: '_AuthModule._loadingState');
 
   @override
@@ -95,6 +95,28 @@ mixin _$AuthModule on _AuthModule, Store {
     _$_loadingStateAtom.reportWrite(value, super._loadingState, () {
       super._loadingState = value;
     });
+  }
+
+  final _$_tabIndexAtom = Atom(name: '_AuthModule._tabIndex');
+
+  @override
+  int get _tabIndex {
+    _$_tabIndexAtom.reportRead();
+    return super._tabIndex;
+  }
+
+  @override
+  set _tabIndex(int value) {
+    _$_tabIndexAtom.reportWrite(value, super._tabIndex, () {
+      super._tabIndex = value;
+    });
+  }
+
+  final _$changeTabIndexAsyncAction = AsyncAction('_AuthModule.changeTabIndex');
+
+  @override
+  Future<void> changeTabIndex(int value) {
+    return _$changeTabIndexAsyncAction.run(() => super.changeTabIndex(value));
   }
 
   final _$registerAsyncAction = AsyncAction('_AuthModule.register');
@@ -128,11 +150,11 @@ mixin _$AuthModule on _AuthModule, Store {
   final _$_AuthModuleActionController = ActionController(name: '_AuthModule');
 
   @override
-  void changeUsername(String value) {
+  void changeEmail(String value) {
     final _$actionInfo = _$_AuthModuleActionController.startAction(
-        name: '_AuthModule.changeUsername');
+        name: '_AuthModule.changeEmail');
     try {
-      return super.changeUsername(value);
+      return super.changeEmail(value);
     } finally {
       _$_AuthModuleActionController.endAction(_$actionInfo);
     }
@@ -150,15 +172,69 @@ mixin _$AuthModule on _AuthModule, Store {
   }
 
   @override
+  String? validateEmail(String? _) {
+    final _$actionInfo = _$_AuthModuleActionController.startAction(
+        name: '_AuthModule.validateEmail');
+    try {
+      return super.validateEmail(_);
+    } finally {
+      _$_AuthModuleActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  String? validatePassword(String? _) {
+    final _$actionInfo = _$_AuthModuleActionController.startAction(
+        name: '_AuthModule.validatePassword');
+    try {
+      return super.validatePassword(_);
+    } finally {
+      _$_AuthModuleActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  bool validateForm() {
+    final _$actionInfo = _$_AuthModuleActionController.startAction(
+        name: '_AuthModule.validateForm');
+    try {
+      return super.validateForm();
+    } finally {
+      _$_AuthModuleActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void navigateToHome() {
+    final _$actionInfo = _$_AuthModuleActionController.startAction(
+        name: '_AuthModule.navigateToHome');
+    try {
+      return super.navigateToHome();
+    } finally {
+      _$_AuthModuleActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  void navigateToAuth() {
+    final _$actionInfo = _$_AuthModuleActionController.startAction(
+        name: '_AuthModule.navigateToAuth');
+    try {
+      return super.navigateToAuth();
+    } finally {
+      _$_AuthModuleActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 email: ${email},
 password: ${password},
 storage: ${storage},
+formKey: ${formKey},
 loading: ${loading},
-validateEmail: ${validateEmail},
-validatePassword: ${validatePassword},
-validateForm: ${validateForm}
+tab: ${tab}
     ''';
   }
 }

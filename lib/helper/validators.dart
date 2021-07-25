@@ -12,7 +12,7 @@ class Validators {
   }
 
   String? password(String? value) {
-    String? error = 'Invalid password';
+    String? error = 'Invalid password.';
     if (value?.isEmpty ?? true) {
       error = 'Password can\'t be empty';
     } else if (RegularExpressions.password.hasMatch(value!)) {

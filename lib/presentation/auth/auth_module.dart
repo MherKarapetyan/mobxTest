@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
 import 'package:mobx_with_clean_archtecture/data/storage/storage_util.dart';
 import 'package:mobx_with_clean_archtecture/domain/model/user_credentials.dart';
@@ -18,53 +19,102 @@ abstract class _AuthModule with Store {
   StorageUtil? storage = StorageModule.storageUtil();
 
   @observable
+  GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
+  @observable
   bool _loadingState = false;
 
   @computed
   bool get loading => _loadingState;
 
+  @observable
+  int _tabIndex = 0;
+
+  @computed
+  int get tab => _tabIndex;
+
   @action
-  void changeUsername(String value) => email = value;
+  Future<void> changeTabIndex(int value) async {
+    if (value == _tabIndex) {
+      _loadingState = true;
+      if (value == 0)
+        await login();
+      else if (value == 1) await register();
+      _loadingState = false;
+    }
+
+    _tabIndex = value;
+  }
+
+  @action
+  void changeEmail(String value) => email = value;
 
   @action
   void changePassword(String value) => password = value;
 
-  @computed
-  String? get validateEmail => Validators().email(email);
+  @action
+  String? validateEmail(String? _) => Validators().email(email);
 
-  @computed
-  String? get validatePassword => Validators().email(password);
+  @action
+  String? validatePassword(String? _) => Validators().password(password);
 
-  @computed
-  bool get validateForm => validateEmail == null && validatePassword == null;
+  @action
+  bool validateForm() => formKey.currentState?.validate() ?? false;
 
   @action
   Future<bool> register() async {
-    if (validateForm) {
+    bool _loggedIn = false;
+
+    if (validateForm()) {
       UserCredentials? _user =
           await storage?.setEmailAndPassword(email: email, password: password);
-
-      return (_user?.email?.isNotEmpty ?? false) &&
+      _loggedIn = (_user?.email?.isNotEmpty ?? false) &&
           (_user?.password?.isNotEmpty ?? false);
     }
+    if (_loggedIn) navigateToHome();
+
     return false;
   }
 
   @action
   Future<bool> login() async {
-    if (validateForm) {
+    bool _loggedIn = false;
+    if (validateForm()) {
       UserCredentials? _user = await storage?.getPasswordViaEmail(email: email);
-      return (_user?.email?.isNotEmpty ?? false) &&
+      _loggedIn = (_user?.email?.isNotEmpty ?? false) &&
           (_user?.password?.isNotEmpty ?? false);
     }
-    return false;
+
+    if (_loggedIn) navigateToHome();
+
+    return _loggedIn;
+  }
+
+  @action
+  void navigateToHome() {
+    Future.delayed(Duration(seconds: 1), () {
+      Navigator.of(GlobalContext.value)
+          .pushNamedAndRemoveUntil(AppRoutes.home, (route) => false);
+    });
+  }
+
+  @action
+  void navigateToAuth() {
+    Future.delayed(Duration(seconds: 1), () {
+      Navigator.of(GlobalContext.value)
+          .pushNamedAndRemoveUntil(AppRoutes.auth, (route) => false);
+    });
   }
 
   @action
   Future<bool> logout() async {
     UserCredentials? _user = await storage?.logout(email);
-    return (_user?.email?.isEmpty ?? false) &&
-        (_user?.password?.isEmpty ?? false);
+
+    bool _loggedOut =
+        (_user?.email?.isEmpty ?? false) && (_user?.password?.isEmpty ?? false);
+    if (_loggedOut) navigateToAuth();
+
+    return _loggedOut;
   }
 
   @action

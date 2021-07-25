@@ -24,9 +24,7 @@ abstract class _HomeModule with Store {
 
   @action
   Future<UserCredentials?> autoLogin() async {
-    _loadingState = true;
     signedUser = await AuthModule().autoLogin();
-    _loadingState = false;
   }
 
   @action
