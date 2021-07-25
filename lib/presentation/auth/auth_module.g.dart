@@ -15,6 +15,12 @@ mixin _$AuthModule on _AuthModule, Store {
   bool get loading => (_$loadingComputed ??=
           Computed<bool>(() => super.loading, name: '_AuthModule.loading'))
       .value;
+  Computed<int>? _$tabComputed;
+
+  @override
+  int get tab => (_$tabComputed ??=
+          Computed<int>(() => super.tab, name: '_AuthModule.tab'))
+      .value;
 
   final _$emailAtom = Atom(name: '_AuthModule.email');
 
@@ -91,6 +97,21 @@ mixin _$AuthModule on _AuthModule, Store {
     });
   }
 
+  final _$_tabIndexAtom = Atom(name: '_AuthModule._tabIndex');
+
+  @override
+  int get _tabIndex {
+    _$_tabIndexAtom.reportRead();
+    return super._tabIndex;
+  }
+
+  @override
+  set _tabIndex(int value) {
+    _$_tabIndexAtom.reportWrite(value, super._tabIndex, () {
+      super._tabIndex = value;
+    });
+  }
+
   final _$registerAsyncAction = AsyncAction('_AuthModule.register');
 
   @override
@@ -120,6 +141,17 @@ mixin _$AuthModule on _AuthModule, Store {
   }
 
   final _$_AuthModuleActionController = ActionController(name: '_AuthModule');
+
+  @override
+  void changeTabIndex(int value) {
+    final _$actionInfo = _$_AuthModuleActionController.startAction(
+        name: '_AuthModule.changeTabIndex');
+    try {
+      return super.changeTabIndex(value);
+    } finally {
+      _$_AuthModuleActionController.endAction(_$actionInfo);
+    }
+  }
 
   @override
   void changeEmail(String value) {
@@ -183,7 +215,8 @@ email: ${email},
 password: ${password},
 storage: ${storage},
 formKey: ${formKey},
-loading: ${loading}
+loading: ${loading},
+tab: ${tab}
     ''';
   }
 }

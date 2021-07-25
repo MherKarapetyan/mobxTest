@@ -7,6 +7,7 @@ import 'package:mobx_with_clean_archtecture/helper/helper.dart';
 import 'package:mobx_with_clean_archtecture/helper/routes.dart';
 import 'package:mobx_with_clean_archtecture/presentation/auth/auth_module.dart';
 import 'package:mobx_with_clean_archtecture/presentation/auth/auth_styles.dart';
+import 'package:mobx_with_clean_archtecture/presentation/auth/components/segmented_control.dart';
 import 'package:mobx_with_clean_archtecture/presentation/widgets/custom_paint/custom_paint.dart';
 import 'package:mobx_with_clean_archtecture/presentation/widgets/loading.dart';
 import 'package:mobx_with_clean_archtecture/presentation/widgets/textfields/textfield.dart';
@@ -37,15 +38,31 @@ class AuthPage extends StatelessWidget {
                           key: _auth.formKey,
                           child: ListView(
                             children: [
+                              Divider(
+                                height: MediaQuery.of(context).size.height *
+                                    _styles.dividerHeightFactor,
+                              ),
                               AppTextField(
                                 validator: _auth.validateEmail,
                                 onChanged: _auth.changeEmail,
                                 hintText: 'Email',
                               ),
+                              const Divider(color: AppThemes.transparent),
                               AppTextField(
                                 validator: _auth.validatePassword,
                                 onChanged: _auth.changePassword,
                                 hintText: 'Password',
+                              ),
+                              const Divider(color: AppThemes.transparent),
+                              const Divider(color: AppThemes.transparent),
+                              SizedBox(
+                                width: MediaQuery.of(context).size.width *
+                                    _styles.segmentedControlWidthFactor,
+                                child: const SegmentedControl(),
+                              ),
+                              Divider(
+                                height: MediaQuery.of(context).size.height *
+                                    _styles.dividerHeightFactor,
                               ),
                             ],
                           ),

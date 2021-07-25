@@ -27,6 +27,15 @@ abstract class _AuthModule with Store {
   @computed
   bool get loading => _loadingState;
 
+  @observable
+  int _tabIndex = 0;
+
+  @computed
+  int get tab => _tabIndex;
+
+  @action
+  void changeTabIndex(int value) => _tabIndex = value;
+
   @action
   void changeEmail(String value) => email = value;
 
