@@ -55,11 +55,10 @@ class AuthPage extends StatelessWidget {
                                 hintText: 'Password',
                               ),
                               const Divider(color: AppThemes.transparent),
-                              const Divider(color: AppThemes.transparent),
                               SizedBox(
                                 width: MediaQuery.of(context).size.width *
                                     _styles.segmentedControlWidthFactor,
-                                child: const SegmentedControl(),
+                                child: SegmentedControl(authModule: _auth),
                               ),
                               AppButton(
                                 child: Text(

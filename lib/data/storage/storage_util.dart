@@ -3,6 +3,7 @@ import 'package:mobx_with_clean_archtecture/data/storage/model/user_response.dar
 import 'package:mobx_with_clean_archtecture/data/storage/request/credentials_body.dart';
 import 'package:mobx_with_clean_archtecture/data/storage/service/storage_service.dart';
 import 'package:mobx_with_clean_archtecture/domain/model/user_credentials.dart';
+import 'package:mobx_with_clean_archtecture/helper/helper.dart';
 
 class StorageUtil {
   final StorageService _storageService;
@@ -22,6 +23,8 @@ class StorageUtil {
   }) async {
     final CredentialsBody body = CredentialsBody(email: email);
     final UserResponse result = await _storageService.getPasswordViaEmail(body);
+    if (result.error?.isNotEmpty ?? false)
+      Snackbars().showMessage(text: result.error!);
     return CredentialsMapper.fromStorage(result);
   }
 
@@ -42,6 +45,8 @@ class StorageUtil {
     final CredentialsBody body =
         CredentialsBody(email: email, password: password);
     final UserResponse result = await _storageService.setEmailAndPassword(body);
+    if (result.error?.isNotEmpty ?? false)
+      Snackbars().showMessage(text: result.error!);
     return CredentialsMapper.fromStorage(result);
   }
 
@@ -57,7 +62,9 @@ class StorageUtil {
   /// [checkSignedUser] function try to find signed user's email.
   ///
   Future<UserCredentials> logout(String key) async {
-    final UserResponse result = await _storageService.deleteKey(key);
+    final UserResponse result = await _storageService.deleteSignedAccount();
+    if (result.error?.isNotEmpty ?? false)
+      Snackbars().showMessage(text: result.error!);
     return CredentialsMapper.fromStorage(result);
   }
 }

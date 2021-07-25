@@ -34,7 +34,17 @@ abstract class _AuthModule with Store {
   int get tab => _tabIndex;
 
   @action
-  void changeTabIndex(int value) => _tabIndex = value;
+  void changeTabIndex(int value) async {
+    if (value == _tabIndex) {
+      _loadingState = true;
+      if (value == 0)
+        await login();
+      else if (value == 1) await register();
+      _loadingState = false;
+    }
+
+    _tabIndex = value;
+  }
 
   @action
   void changeEmail(String value) => email = value;
@@ -53,31 +63,58 @@ abstract class _AuthModule with Store {
 
   @action
   Future<bool> register() async {
+    bool _loggedIn = false;
+
     if (validateForm()) {
       UserCredentials? _user =
           await storage?.setEmailAndPassword(email: email, password: password);
-
-      return (_user?.email?.isNotEmpty ?? false) &&
+      _loggedIn = (_user?.email?.isNotEmpty ?? false) &&
           (_user?.password?.isNotEmpty ?? false);
     }
+    if (_loggedIn) navigateToHome();
+
     return false;
   }
 
   @action
   Future<bool> login() async {
+    bool _loggedIn = false;
     if (validateForm()) {
       UserCredentials? _user = await storage?.getPasswordViaEmail(email: email);
-      return (_user?.email?.isNotEmpty ?? false) &&
+      _loggedIn = (_user?.email?.isNotEmpty ?? false) &&
           (_user?.password?.isNotEmpty ?? false);
     }
-    return false;
+
+    if (_loggedIn) navigateToHome();
+
+    return _loggedIn;
+  }
+
+  @action
+  void navigateToHome() {
+    Future.delayed(Duration(seconds: 1), () {
+      Navigator.of(GlobalContext.value)
+          .pushNamedAndRemoveUntil(AppRoutes.home, (route) => false);
+    });
+  }
+
+  @action
+  void navigateToAuth() {
+    Future.delayed(Duration(seconds: 1), () {
+      Navigator.of(GlobalContext.value)
+          .pushNamedAndRemoveUntil(AppRoutes.auth, (route) => false);
+    });
   }
 
   @action
   Future<bool> logout() async {
     UserCredentials? _user = await storage?.logout(email);
-    return (_user?.email?.isEmpty ?? false) &&
-        (_user?.password?.isEmpty ?? false);
+
+    bool _loggedOut =
+        (_user?.email?.isEmpty ?? false) && (_user?.password?.isEmpty ?? false);
+    if (_loggedOut) navigateToAuth();
+
+    return _loggedOut;
   }
 
   @action

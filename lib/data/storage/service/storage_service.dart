@@ -9,15 +9,17 @@ class StorageService {
   ) async {
     String? _pass;
     bool _status = false;
-    String? _error = 'Key doesn\'t exists';
+    String? _error = 'User doesn\'t exists';
 
     if (credential.email != null) {
-      _error = null;
       _status =
           await FlutterSecureStorage().containsKey(key: credential.email!);
-
-      if (_status)
+      await FlutterSecureStorage()
+          .write(key: StorageKeys.SignedEmail, value: credential.email!);
+      if (_status) {
+        _error = null;
         _pass = await FlutterSecureStorage().read(key: credential.email!);
+      }
     }
 
     return UserResponse(
@@ -32,15 +34,19 @@ class StorageService {
     CredentialsBody credentials,
   ) async {
     bool _status = false;
-    String? _error = 'One of credentials doesn\'t exists';
+    String? _error = 'Email or Password is incorrect';
 
     if (credentials.email != null && credentials.password != null) {
       _error = null;
       await FlutterSecureStorage()
           .write(key: credentials.email!, value: credentials.password);
+
+      await FlutterSecureStorage()
+          .write(key: StorageKeys.SignedEmail, value: credentials.email!);
       _status =
           await FlutterSecureStorage().containsKey(key: credentials.email!);
     }
+    if (_status) _error = 'User regitered successfully.';
 
     return UserResponse(
       email: credentials.email,
@@ -69,17 +75,15 @@ class StorageService {
     );
   }
 
-  Future<UserResponse> deleteKey(String key) async {
+  Future<UserResponse> deleteSignedAccount() async {
     bool _status = true;
-    await FlutterSecureStorage().delete(key: key);
+    String _error = 'Logged out successfully';
     await FlutterSecureStorage().delete(key: StorageKeys.SignedEmail);
-    _status = await FlutterSecureStorage().containsKey(key: key);
-
     return UserResponse(
       email: null,
       password: null,
       requestStatus: _status,
-      error: null,
+      error: _error,
     );
   }
 }

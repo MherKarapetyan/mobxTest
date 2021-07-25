@@ -8,17 +8,12 @@ import 'dart:math' as math;
 import 'package:mobx_with_clean_archtecture/presentation/auth/auth_module.dart';
 import 'package:mobx_with_clean_archtecture/presentation/auth/components/segmented_control_styles.dart';
 
-// class SegmentedControl extends StatefulWidget {
-//   const SegmentedControl({Key? key}) : super(key: key);
-
-//   @override
-//   _SegmentedControlState createState() => _SegmentedControlState();
-// }
-final AuthModule _auth = AuthModule();
 final SegmentedControlStyles _styles = SegmentedControlStyles();
 
 class SegmentedControl extends StatelessWidget {
-  const SegmentedControl();
+  final AuthModule authModule;
+  const SegmentedControl({required this.authModule});
+
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, size) {
@@ -29,7 +24,7 @@ class SegmentedControl extends StatelessWidget {
               return Stack(
                 children: [
                   AnimatedPositioned(
-                    left: _auth.tab == 0 ? 0 : size.maxWidth / 2,
+                    left: authModule.tab == 0 ? 0 : size.maxWidth / 2,
                     duration: _styles.animationDuration,
                     curve: _styles.animationCurve,
                     child: Container(
@@ -50,7 +45,7 @@ class SegmentedControl extends StatelessWidget {
                     child: Row(children: [
                       GestureDetector(
                         behavior: HitTestBehavior.opaque,
-                        onTap: () => _auth.changeTabIndex(0),
+                        onTap: () => authModule.changeTabIndex(0),
                         child: Container(
                           height: _styles.height,
                           width: size.maxWidth / 2,
@@ -62,7 +57,7 @@ class SegmentedControl extends StatelessWidget {
                                 .primaryTextTheme
                                 .button!
                                 .copyWith(
-                                    color: _auth.tab == 0
+                                    color: authModule.tab == 0
                                         ? AppThemes.white
                                         : AppThemes.grey),
                             child: Text(
@@ -73,7 +68,7 @@ class SegmentedControl extends StatelessWidget {
                       ),
                       GestureDetector(
                         behavior: HitTestBehavior.opaque,
-                        onTap: () => _auth.changeTabIndex(1),
+                        onTap: () => authModule.changeTabIndex(1),
                         child: Container(
                           height: _styles.height,
                           width: size.maxWidth / 2,
@@ -85,7 +80,7 @@ class SegmentedControl extends StatelessWidget {
                                 .primaryTextTheme
                                 .button!
                                 .copyWith(
-                                    color: _auth.tab == 1
+                                    color: authModule.tab == 1
                                         ? AppThemes.white
                                         : AppThemes.grey),
                             child: Text('Sign-up'),
