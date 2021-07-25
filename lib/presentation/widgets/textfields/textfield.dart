@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mobx_with_clean_archtecture/presentation/auth/auth_module.dart';
 import 'package:mobx_with_clean_archtecture/presentation/widgets/textfields/textfield_styles.dart';
 
 class AppTextField extends StatelessWidget {
