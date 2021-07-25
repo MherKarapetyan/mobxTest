@@ -7,8 +7,17 @@ class StorageService {
   static const String Password = 'password';
   static const String SignedEmail = 'signedEmail';
 
-  Future<UserResponse> getPasswordViaEmail(
-    CredentialsBody credential,
+  ///
+  /// [login] tries to login user with given credentials.
+  ///
+  /// Function gets an argument:
+  /// * `RequestBody credential`
+  ///
+  /// Returns `UserResponse` object, that contains user signin info
+  /// and response info.
+  ///
+  Future<UserResponse> login(
+    RequestBody credential,
   ) async {
     String? _pass;
     bool _status = false;
@@ -20,8 +29,14 @@ class StorageService {
       await FlutterSecureStorage()
           .write(key: SignedEmail, value: credential.email!);
       if (_status) {
-        _error = null;
-        _pass = await FlutterSecureStorage().read(key: credential.email!);
+        String? _temporaryPassword =
+            await FlutterSecureStorage().read(key: credential.email!);
+
+        print('$_temporaryPassword   ${credential.password}');
+        if (_temporaryPassword == credential.password) {
+          _error = null;
+          _pass = _temporaryPassword;
+        }
       }
     }
 
@@ -33,8 +48,17 @@ class StorageService {
     );
   }
 
+  ///
+  /// [setEmailAndPassword] tries to store inputed email and password.
+  ///
+  /// Function gets an argument:
+  /// * `CredentialsBody credential`
+  ///
+  /// Returns `UserResponse` object, that contains user signin info
+  /// and response info.
+  ///
   Future<UserResponse> setEmailAndPassword(
-    CredentialsBody credentials,
+    RequestBody credentials,
   ) async {
     bool _status = false;
     String? _error = 'Email or Password is incorrect';
@@ -64,6 +88,15 @@ class StorageService {
     );
   }
 
+  ///
+  /// [checkSignedUser] tries to find signed user's email.
+  ///
+  /// Function gets an argument:
+  /// * `CredentialsBody credential`
+  ///
+  /// Returns `UserResponse` object, that contains user signin info
+  /// and response info.
+  ///
   Future<UserResponse> checkSignedUser() async {
     bool _status = false;
     String? _error = 'Signed User doesn\'t exists';
@@ -82,6 +115,15 @@ class StorageService {
     );
   }
 
+  ///
+  /// [checkSignedUser] tries to delete signed user's email.
+  ///
+  /// Function gets an argument:
+  /// * `CredentialsBody credential`
+  ///
+  /// Returns `UserResponse` object, that contains user signin info
+  /// and response info.
+  ///
   Future<UserResponse> deleteSignedAccount() async {
     bool _status = true;
     String _error = 'Logged out successfully';

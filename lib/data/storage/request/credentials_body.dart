@@ -1,10 +1,10 @@
 import 'dart:convert' show json;
 
-class CredentialsBody {
+class RequestBody {
   final String? email;
   final String? password;
 
-  CredentialsBody({required this.email, this.password});
+  RequestBody({required this.email, this.password});
 
   Map<String, dynamic> toMap() => {'email': email, 'password': password};
   String toJson() => json.encode({'email': email, 'password': password});

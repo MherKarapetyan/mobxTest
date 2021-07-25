@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mobx_with_clean_archtecture/presentation/widgets/textfields/textfield_styles.dart';
 
+///
 /// This class contains all app themes.
 /// All app/text specific colors should be defined here.
 /// Text widgets should get the themes from this class.
+/// 
 class AppThemes {
   static const double OPACITY_LOW = 0.35;
   static const double OPACITY_MIDDLE = 0.5;
