@@ -9,6 +9,7 @@ class AppRoutes {
   static const home = '/home';
   static const auth = '/auth';
 
+  // Routes object.
   static final Map<String, Widget Function(BuildContext)> routes = {
     AppRoutes.auth: (context) => AuthPage(),
     AppRoutes.home: (context) => HomePage(),

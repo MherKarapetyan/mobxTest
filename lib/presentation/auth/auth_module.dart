@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:mobx/mobx.dart';
-import 'package:mobx_with_clean_archtecture/data/storage/storage_util.dart';
 import 'package:mobx_with_clean_archtecture/domain/model/user_credentials.dart';
+import 'package:mobx_with_clean_archtecture/domain/repository/user_credential_repository.dart';
 import 'package:mobx_with_clean_archtecture/internal/core/core.dart';
-import 'package:mobx_with_clean_archtecture/internal/dependencies/storage_module.dart';
+import 'package:mobx_with_clean_archtecture/internal/dependencies/repository_module.dart';
 part 'auth_module.g.dart';
 
 class AuthModule = _AuthModule with _$AuthModule;
@@ -16,7 +16,7 @@ abstract class _AuthModule with Store {
   String password = '';
 
   @observable
-  StorageUtil? storage = StorageModule.storageUtil();
+  UserCredentialsRepository? _module = RepositoryModule.storageRepository();
 
   @observable
   GlobalKey<FormState> formKey = GlobalKey<FormState>();
@@ -67,7 +67,7 @@ abstract class _AuthModule with Store {
       _loadingState = true;
       await Future.delayed(Duration(seconds: 2));
       UserCredentials? _user =
-          await storage?.setEmailAndPassword(email: email, password: password);
+          await _module?.setEmailAndPassword(email: email, password: password);
       _loggedIn = (_user?.email?.isNotEmpty ?? false) &&
           (_user?.password?.isNotEmpty ?? false);
     }
@@ -82,8 +82,9 @@ abstract class _AuthModule with Store {
     bool _loggedIn = false;
     if (validateForm()) {
       _loadingState = true;
-      await Future.delayed(Duration(seconds: 2));
-      UserCredentials? _user = await storage?.getPasswordViaEmail(email: email);
+      await Future.delayed(Duration(seconds: 1));
+      UserCredentials? _user =
+          await _module?.login(email: email, password: password);
       _loggedIn = (_user?.email?.isNotEmpty ?? false) &&
           (_user?.password?.isNotEmpty ?? false);
     }
@@ -97,7 +98,7 @@ abstract class _AuthModule with Store {
 
   @action
   void navigateToHome() {
-    Future.delayed(Duration(seconds: 1), () {
+    Future.delayed(Duration(milliseconds: 300), () {
       Navigator.of(GlobalContext.value)
           .pushNamedAndRemoveUntil(AppRoutes.home, (route) => false);
     });
@@ -111,7 +112,7 @@ abstract class _AuthModule with Store {
 
   @action
   Future<bool> logout() async {
-    UserCredentials? _user = await storage?.logout(email);
+    UserCredentials? _user = await _module?.logout();
 
     bool _loggedOut =
         (_user?.email?.isEmpty ?? false) && (_user?.password?.isEmpty ?? false);
@@ -122,5 +123,5 @@ abstract class _AuthModule with Store {
 
   @action
   Future<UserCredentials?> autoLogin() async =>
-      await storage?.checkSignedUser();
+      await _module?.checkSignedUser();
 }

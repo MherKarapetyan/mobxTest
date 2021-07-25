@@ -52,18 +52,18 @@ mixin _$AuthModule on _AuthModule, Store {
     });
   }
 
-  final _$storageAtom = Atom(name: '_AuthModule.storage');
+  final _$_moduleAtom = Atom(name: '_AuthModule._module');
 
   @override
-  StorageUtil? get storage {
-    _$storageAtom.reportRead();
-    return super.storage;
+  UserCredentialsRepository? get _module {
+    _$_moduleAtom.reportRead();
+    return super._module;
   }
 
   @override
-  set storage(StorageUtil? value) {
-    _$storageAtom.reportWrite(value, super.storage, () {
-      super.storage = value;
+  set _module(UserCredentialsRepository? value) {
+    _$_moduleAtom.reportWrite(value, super._module, () {
+      super._module = value;
     });
   }
 
@@ -231,7 +231,6 @@ mixin _$AuthModule on _AuthModule, Store {
     return '''
 email: ${email},
 password: ${password},
-storage: ${storage},
 formKey: ${formKey},
 loading: ${loading},
 tab: ${tab}

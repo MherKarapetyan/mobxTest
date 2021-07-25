@@ -3,6 +3,12 @@ import 'package:mobx_with_clean_archtecture/data/storage/storage_util.dart';
 import 'package:mobx_with_clean_archtecture/domain/repository/user_credential_repository.dart';
 import 'package:mobx_with_clean_archtecture/internal/dependencies/storage_module.dart';
 
+///
+/// [RepositoryModule] class unites repositories.
+///
+/// `RepositoryModule().storageRepository` function creates `StorageModule`
+/// instance and base on that creates `UserCredentialsRepository` instance.
+///
 class RepositoryModule {
   static UserCredentialsRepository? _repository;
 
